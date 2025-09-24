@@ -1,0 +1,13 @@
+# Labeler rules for PRs
+# Requires actions/labeler workflow below
+
+frontend:
+  - 'frontend/**'
+
+backend:
+  - 'src/**'
+  - 'pom.xml'
+
+devx:
+  - '.github/**'
+  - 'tools/**'
