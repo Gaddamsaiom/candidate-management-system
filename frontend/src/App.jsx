@@ -13,7 +13,7 @@ export default function App() {
     <div className="container">
       <div className="header">
         <h1>Candidate Portal</h1>
-        <p>Use this portal to submit candidates and manage them. Backend must be running at http://localhost:8080</p>
+        <p>Use this portal to submit candidates and manage them. Backend must be running at http://localhost:8081</p>
       </div>
 
       <div className="tabs">
