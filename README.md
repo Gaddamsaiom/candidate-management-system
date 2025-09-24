@@ -91,3 +91,16 @@ CORS is already enabled for `http://localhost:5173` in `WebConfig`.
 mvn -q -DskipTests package
 ```
 Jar will be in `target/`.
+
+## Contributing Guidelines (Commits and PRs)
+
+- Use simple, plain commit messages. Examples:
+  - `Add manager page back button`
+  - `Fix search filter for status`
+  - `Update README with CI badges`
+- Workflow for changes:
+  1. Create a new branch from `main`.
+  2. Open a Pull Request (PR) to `main`.
+  3. Wait for CI to pass (Backend CI and Frontend CI).
+  4. Auto-merge will merge the PR once checks pass.
+
