@@ -35,6 +35,31 @@ Useful endpoints:
 Database profiles:
 - Default (H2 in-memory): no change required
 - MySQL: run with `--spring.profiles.active=mysql` and configure credentials in `src/main/resources/application.yml`
+- JSON file (no RDBMS): run with `--spring.profiles.active=jsondb`
+
+### JSON Database profile (jsondb)
+
+When you run the app with the `jsondb` profile, persistence is backed by a JSON file instead of a relational database.
+
+How to run:
+```
+mvn spring-boot:run -Dspring-boot.run.profiles=jsondb
+```
+
+Where data is stored:
+- Default path: `./data/candidates.json` (relative to working directory)
+- You can override the path via property: `app.jsondb.path`.
+
+Examples:
+```
+# Custom path
+mvn spring-boot:run -Dspring-boot.run.profiles=jsondb -Dspring-boot.run.jvmArguments="-Dapp.jsondb.path=C:/temp/candidates.json"
+```
+
+Notes:
+- The JSON store is simple and best-effort; it loads all data in-memory and writes on changes.
+- Concurrency is guarded with a lock, but it is not a full ACID database.
+- Existing import/export endpoints continue to work.
 
 Seed data:
 - On startup, if the DB is empty, 4 sample candidates are inserted automatically by `DataSeeder`.

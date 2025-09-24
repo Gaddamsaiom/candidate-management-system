@@ -6,7 +6,7 @@ import com.candidatemanagement.entity.Candidate;
 import com.candidatemanagement.entity.CandidateStatus;
 import com.candidatemanagement.exception.CandidateNotFoundException;
 import com.candidatemanagement.exception.DuplicateEmailException;
-import com.candidatemanagement.repository.CandidateRepository;
+import com.candidatemanagement.repository.CandidateStorage;
 import com.candidatemanagement.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class CandidateService {
     
-    private final CandidateRepository candidateRepository;
+    private final CandidateStorage candidateStorage;
     private final FileUtil fileUtil;
     
     /**
@@ -34,7 +34,7 @@ public class CandidateService {
         log.info("Submitting candidate: {}", request.getEmail());
         
         // Check if email already exists
-        if (candidateRepository.existsByEmail(request.getEmail())) {
+        if (candidateStorage.existsByEmail(request.getEmail())) {
             throw new DuplicateEmailException("Candidate with email " + request.getEmail() + " already exists");
         }
         
@@ -63,7 +63,7 @@ public class CandidateService {
         }
         
         // Save candidate
-        Candidate savedCandidate = candidateRepository.save(candidate);
+        Candidate savedCandidate = candidateStorage.save(candidate);
         log.info("Candidate submitted successfully with ID: {}", savedCandidate.getId());
         
         return convertToResponse(savedCandidate);
@@ -75,11 +75,11 @@ public class CandidateService {
     public CandidateResponse updateCandidateStatus(Long candidateId, CandidateStatus newStatus) {
         log.info("Updating candidate {} status to {}", candidateId, newStatus);
         
-        Candidate candidate = candidateRepository.findById(candidateId)
+        Candidate candidate = candidateStorage.findById(candidateId)
                 .orElseThrow(() -> new CandidateNotFoundException("Candidate not found with ID: " + candidateId));
         
         candidate.setStatus(newStatus);
-        Candidate updatedCandidate = candidateRepository.save(candidate);
+        Candidate updatedCandidate = candidateStorage.save(candidate);
         
         log.info("Candidate status updated successfully");
         return convertToResponse(updatedCandidate);
@@ -90,7 +90,7 @@ public class CandidateService {
      */
     @Transactional(readOnly = true)
     public CandidateResponse getCandidateById(Long candidateId) {
-        Candidate candidate = candidateRepository.findById(candidateId)
+        Candidate candidate = candidateStorage.findById(candidateId)
                 .orElseThrow(() -> new CandidateNotFoundException("Candidate not found with ID: " + candidateId));
         
         return convertToResponse(candidate);
@@ -101,7 +101,7 @@ public class CandidateService {
      */
     @Transactional(readOnly = true)
     public List<CandidateResponse> getAllCandidates() {
-        return candidateRepository.findAll().stream()
+        return candidateStorage.findAll().stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
     }
@@ -111,7 +111,7 @@ public class CandidateService {
      */
     @Transactional(readOnly = true)
     public List<CandidateResponse> searchCandidates(String role, CandidateStatus status, String searchTerm) {
-        List<Candidate> candidates = candidateRepository.findCandidatesByCriteria(role, status, searchTerm);
+        List<Candidate> candidates = candidateStorage.findCandidatesByCriteria(role, status, searchTerm);
         return candidates.stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
@@ -122,7 +122,7 @@ public class CandidateService {
      */
     @Transactional(readOnly = true)
     public List<CandidateResponse> getCandidatesByRole(String role) {
-        return candidateRepository.findByRole(role.toUpperCase()).stream()
+        return candidateStorage.findByRole(role.toUpperCase()).stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
     }
@@ -132,7 +132,7 @@ public class CandidateService {
      */
     @Transactional(readOnly = true)
     public List<CandidateResponse> getCandidatesByStatus(CandidateStatus status) {
-        return candidateRepository.findByStatus(status).stream()
+        return candidateStorage.findByStatus(status).stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
     }
@@ -143,11 +143,11 @@ public class CandidateService {
     public void deleteCandidate(Long candidateId) {
         log.info("Deleting candidate with ID: {}", candidateId);
         
-        if (!candidateRepository.existsById(candidateId)) {
+        if (!candidateStorage.existsById(candidateId)) {
             throw new CandidateNotFoundException("Candidate not found with ID: " + candidateId);
         }
         
-        candidateRepository.deleteById(candidateId);
+        candidateStorage.deleteById(candidateId);
         log.info("Candidate deleted successfully");
     }
     
@@ -156,7 +156,7 @@ public class CandidateService {
      */
     @Transactional(readOnly = true)
     public byte[] getCandidateResume(Long candidateId) {
-        Candidate candidate = candidateRepository.findById(candidateId)
+        Candidate candidate = candidateStorage.findById(candidateId)
                 .orElseThrow(() -> new CandidateNotFoundException("Candidate not found with ID: " + candidateId));
         
         if (candidate.getResume() == null || candidate.getResume().isEmpty()) {
@@ -171,7 +171,7 @@ public class CandidateService {
      */
     @Transactional(readOnly = true)
     public String exportCandidatesToJson() throws IOException {
-        List<Candidate> candidates = candidateRepository.findAll();
+        List<Candidate> candidates = candidateStorage.findAll();
         return fileUtil.convertCandidatesToJson(candidates);
     }
     
@@ -186,7 +186,7 @@ public class CandidateService {
         }
         
         List<Candidate> candidates = fileUtil.convertJsonToCandidates(jsonData);
-        List<Candidate> savedCandidates = candidateRepository.saveAll(candidates);
+        List<Candidate> savedCandidates = candidateStorage.saveAll(candidates);
         
         log.info("Imported {} candidates successfully", savedCandidates.size());
         return savedCandidates.stream()
@@ -199,19 +199,19 @@ public class CandidateService {
      */
     @Transactional(readOnly = true)
     public CandidateStatistics getCandidateStatistics() {
-        long totalCandidates = candidateRepository.count();
-        long freshers = candidateRepository.countByRole("FRESHER");
-        long experienced = candidateRepository.countByRole("EXPERIENCED");
+        long totalCandidates = candidateStorage.count();
+        long freshers = candidateStorage.countByRole("FRESHER");
+        long experienced = candidateStorage.countByRole("EXPERIENCED");
         
         return CandidateStatistics.builder()
                 .totalCandidates(totalCandidates)
                 .freshers(freshers)
                 .experienced(experienced)
-                .submitted(candidateRepository.countByStatus(CandidateStatus.SUBMITTED))
-                .underReview(candidateRepository.countByStatus(CandidateStatus.UNDER_REVIEW))
-                .shortlisted(candidateRepository.countByStatus(CandidateStatus.SHORTLISTED))
-                .selected(candidateRepository.countByStatus(CandidateStatus.SELECTED))
-                .rejected(candidateRepository.countByStatus(CandidateStatus.REJECTED))
+                .submitted(candidateStorage.countByStatus(CandidateStatus.SUBMITTED))
+                .underReview(candidateStorage.countByStatus(CandidateStatus.UNDER_REVIEW))
+                .shortlisted(candidateStorage.countByStatus(CandidateStatus.SHORTLISTED))
+                .selected(candidateStorage.countByStatus(CandidateStatus.SELECTED))
+                .rejected(candidateStorage.countByStatus(CandidateStatus.REJECTED))
                 .build();
     }
     

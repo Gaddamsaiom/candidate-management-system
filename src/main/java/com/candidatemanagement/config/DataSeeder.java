@@ -2,7 +2,7 @@ package com.candidatemanagement.config;
 
 import com.candidatemanagement.entity.Candidate;
 import com.candidatemanagement.entity.CandidateStatus;
-import com.candidatemanagement.repository.CandidateRepository;
+import com.candidatemanagement.repository.CandidateStorage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
@@ -18,11 +18,11 @@ import java.util.List;
 @Slf4j
 public class DataSeeder implements ApplicationRunner {
 
-    private final CandidateRepository candidateRepository;
+    private final CandidateStorage candidateStorage;
 
     @Override
     public void run(ApplicationArguments args) {
-        if (candidateRepository.count() > 0) {
+        if (candidateStorage.count() > 0) {
             log.info("Database already seeded");
             return;
         }
@@ -36,7 +36,7 @@ public class DataSeeder implements ApplicationRunner {
                 Candidate.builder().role("EXPERIENCED").name("Dave Senior").email("dave@example.com").phone("9666666666").experience("7 years at Beta").skills("Spring Boot, Docker").status(CandidateStatus.INTERVIEWED).resume(sampleResume).resumeFilename("dave.pdf").build()
         );
 
-        candidateRepository.saveAll(candidates);
+        candidateStorage.saveAll(candidates);
         log.info("Seeded {} candidates", candidates.size());
     }
 }
