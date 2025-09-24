@@ -10,14 +10,16 @@ export default function App() {
   }
 
   return (
-    <div style={{ maxWidth: 960, margin: '0 auto', padding: 16, fontFamily: 'system-ui, Arial' }}>
-      <h1>Candidate Portal</h1>
-      <p style={{ color: '#666' }}>Use this portal to submit candidates and manage them. Backend must be running at http://localhost:8080</p>
+    <div className="container">
+      <div className="header">
+        <h1>Candidate Portal</h1>
+        <p>Use this portal to submit candidates and manage them. Backend must be running at http://localhost:8080</p>
+      </div>
 
-      <div style={{ display: 'flex', gap: 8, borderBottom: '1px solid #ddd', marginBottom: 16 }}>
-        <button onClick={() => setActiveTab('FRESHER')} style={tabStyle(activeTab === 'FRESHER')}>Fresher</button>
-        <button onClick={() => setActiveTab('EXPERIENCED')} style={tabStyle(activeTab === 'EXPERIENCED')}>Experienced</button>
-        <button onClick={openManagerInNewTab} style={tabStyle(false)}>Manager (opens new tab)</button>
+      <div className="tabs">
+        <button onClick={() => setActiveTab('FRESHER')} className={`tab ${activeTab === 'FRESHER' ? 'active' : ''}`}>Fresher</button>
+        <button onClick={() => setActiveTab('EXPERIENCED')} className={`tab ${activeTab === 'EXPERIENCED' ? 'active' : ''}`}>Experienced</button>
+        <button onClick={openManagerInNewTab} className="tab">Manager (opens new tab)</button>
       </div>
 
       {activeTab === 'FRESHER' && (
@@ -29,16 +31,4 @@ export default function App() {
       )}
     </div>
   )
-}
-
-function tabStyle(active) {
-  return {
-    padding: '10px 14px',
-    border: '1px solid #ddd',
-    borderBottom: active ? '2px solid #1976d2' : '1px solid #ddd',
-    background: active ? '#e3f2fd' : '#fafafa',
-    color: '#222',
-    cursor: 'pointer',
-    borderRadius: '6px 6px 0 0'
-  }
 }
