@@ -1,0 +1,62 @@
+name: Auto Create PR on Feature Branch Push
+
+on:
+  push:
+    branches:
+      - "feature/**"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create or update PR to main
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const branch = context.ref.replace('refs/heads/', '');
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            // Only create PRs from feature/* into main
+            if (!branch.startsWith('feature/')) {
+              core.info(`Branch ${branch} is not a feature branch. Skipping.`);
+              return;
+            }
+
+            // Check if a PR already exists from this branch to main
+            const { data: prs } = await github.rest.pulls.list({
+              owner,
+              repo,
+              state: 'open',
+              head: `${owner}:${branch}`,
+              base: 'main'
+            });
+
+            if (prs.length > 0) {
+              core.info(`PR already exists: #${prs[0].number} ${prs[0].html_url}`);
+              return;
+            }
+
+            // Construct a descriptive title from the branch name
+            const short = branch.replace('feature/', '').replace(/[-_]/g, ' ');
+            const title = `feat: ${short}`;
+            const body = `This PR was auto-created for branch \`${branch}\`.\n\n` +
+              `- Target: \`main\`\n` +
+              `- Source: \`${branch}\`\n` +
+              `\nIf you want auto-merge, add the \`auto-merge\` label.`;
+
+            const { data: pr } = await github.rest.pulls.create({
+              owner,
+              repo,
+              title,
+              head: branch,
+              base: 'main',
+              body
+            });
+
+            core.info(`Created PR #${pr.number}: ${pr.html_url}`);
