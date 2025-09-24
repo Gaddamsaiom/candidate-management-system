@@ -1,0 +1,90 @@
+name: PR Smoke (API + UI screenshots)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: pr-smoke-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Start backend (Spring Boot)
+        run: |
+          nohup bash -c 'mvn -q -DskipTests spring-boot:run' >/tmp/backend.log 2>&1 & echo $! > /tmp/backend.pid
+          echo "Backend PID: $(cat /tmp/backend.pid)"
+
+      - name: Wait for backend to be ready
+        run: |
+          for i in {1..90}; do
+            if curl -sf http://localhost:8080/swagger-ui.html >/dev/null; then echo ready; exit 0; fi; sleep 1; done
+          echo "Backend did not become ready in time"; tail -n 200 /tmp/backend.log; exit 1
+
+      - name: Setup Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: 'frontend/package-lock.json'
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci || npm install
+
+      - name: Start frontend (Vite preview)
+        run: |
+          nohup bash -c 'npm run --prefix frontend preview -- --host --port 5173' >/tmp/frontend.log 2>&1 & echo $! > /tmp/frontend.pid
+          echo "Frontend PID: $(cat /tmp/frontend.pid)"
+
+      - name: Wait for frontend to be ready
+        run: |
+          for i in {1..60}; do
+            if curl -sf http://localhost:5173 >/dev/null; then echo ready; exit 0; fi; sleep 1; done
+          echo "Frontend did not become ready in time"; tail -n 200 /tmp/frontend.log; exit 1
+
+      - name: Install Playwright locally for smoke script
+        run: |
+          npm --prefix .github/scripts init -y
+          npm --prefix .github/scripts i playwright
+          npx --yes playwright@latest install --with-deps
+
+      - name: Run smoke script (screenshots)
+        env:
+          SMOKE_OUT: smoke_screenshots
+        run: node .github/scripts/smoke.mjs
+
+      - name: Upload screenshots artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke_screenshots
+          path: smoke_screenshots
+
+      - name: Post PR comment with results
+        run: |
+          gh pr comment "$PR_NUMBER" --repo "$REPO" --body "✅ Smoke test completed. Screenshots uploaded as artifact 'smoke_screenshots'.\n\n- Backend: http://localhost:8080 (Swagger UI)\n- Frontend: http://localhost:5173 (main and manager page screenshots)"
+
+      - name: Cleanup servers
+        if: always()
+        run: |
+          if [ -f /tmp/frontend.pid ]; then kill $(cat /tmp/frontend.pid) || true; fi
+          if [ -f /tmp/backend.pid ]; then kill $(cat /tmp/backend.pid) || true; fi
