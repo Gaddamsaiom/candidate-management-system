@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.6</version>
+        <version>3.3.4</version>
         <relativePath/>
     </parent>
     <groupId>com.candidatemanagement</groupId>
@@ -14,7 +14,8 @@
     <name>candidate-management-system</name>
     <description>Candidate Management System with Spring Boot</description>
     <properties>
-        <java.version>21</java.version>
+        <!-- Use Java 17 for wider local compatibility (Spring Boot 3.x supports 17+) -->
+        <java.version>17</java.version>
     </properties>
     <dependencies>
         <!-- Spring Boot Starters -->

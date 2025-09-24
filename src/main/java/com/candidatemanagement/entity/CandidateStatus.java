@@ -1,5 +1,9 @@
 package com.candidatemanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@JsonFormat(shape = JsonFormat.Shape.STRING)
 public enum CandidateStatus {
     SUBMITTED("Submitted"),
     UNDER_REVIEW("Under Review"),
@@ -16,6 +20,7 @@ public enum CandidateStatus {
         this.displayName = displayName;
     }
     
+    @JsonIgnore
     public String getDisplayName() {
         return displayName;
     }
