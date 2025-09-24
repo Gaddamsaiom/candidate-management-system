@@ -35,16 +35,16 @@ export default function SearchManage() {
   }
 
   return (
-    <div style={{ border: '1px solid #ddd', padding: 16, borderRadius: 8 }}>
+    <div className="card">
       <h2>Search & Manage</h2>
-      <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
-        <input placeholder="Search by name/email/skills" value={q} onChange={e => setQ(e.target.value)} />
-        <select value={role} onChange={e => setRole(e.target.value)}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
+        <input placeholder="Search by name/email/skills" value={q} onChange={e => setQ(e.target.value)} style={{ flex: '2 1 180px' }} />
+        <select value={role} onChange={e => setRole(e.target.value)} style={{ flex: '1 1 120px' }}>
           <option value="">Role</option>
           <option value="FRESHER">Fresher</option>
           <option value="EXPERIENCED">Experienced</option>
         </select>
-        <select value={status} onChange={e => setStatus(e.target.value)}>
+        <select value={status} onChange={e => setStatus(e.target.value)} style={{ flex: '1 1 150px' }}>
           <option value="">Status</option>
           {['SUBMITTED','UNDER_REVIEW','SHORTLISTED','INTERVIEW_SCHEDULED','INTERVIEWED','SELECTED','REJECTED','ON_HOLD'].map(s => (
             <option key={s} value={s}>{s}</option>
@@ -53,36 +53,39 @@ export default function SearchManage() {
         <button onClick={load}>Search</button>
       </div>
 
-      <div style={{ fontSize: 12, color: '#777' }}>{msg}</div>
+      <div className="msg">{msg}</div>
 
-      <table border="1" cellPadding="6" style={{ width: '100%', borderCollapse: 'collapse', marginTop: 8 }}>
-        <thead>
-          <tr>
-            <th>ID</th><th>Name</th><th>Role</th><th>Status</th><th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items.map(it => (
-            <tr key={it.id}>
-              <td>{it.id}</td>
-              <td>{it.name}<br/><small>{it.email}</small></td>
-              <td>{it.role}</td>
-              <td>
-                <select value={it.status} onChange={(e) => changeStatus(it.id, e.target.value)}>
-                  {['SUBMITTED','UNDER_REVIEW','SHORTLISTED','INTERVIEW_SCHEDULED','INTERVIEWED','SELECTED','REJECTED','ON_HOLD'].map(s => (
-                    <option key={s} value={s}>{s}</option>
-                  ))}
-                </select>
-              </td>
-              <td>
-                {it.hasResume && (<a href={resumeUrl(it.id)} target="_blank">Download</a>)}
-                &nbsp;
-                <button onClick={() => remove(it.id)}>Delete</button>
-              </td>
+      <div className="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th><th>Name</th><th>Role</th><th>Status</th><th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {items.map(it => (
+              <tr key={it.id}>
+                <td>{it.id}</td>
+                <td>{it.name}<br/><small style={{ color: 'var(--text-muted)' }}>{it.email}</small></td>
+                <td>{it.role}</td>
+                <td>
+                  <select value={it.status} onChange={(e) => changeStatus(it.id, e.target.value)}>
+                    {['SUBMITTED','UNDER_REVIEW','SHORTLISTED','INTERVIEW_SCHEDULED','INTERVIEWED','SELECTED','REJECTED','ON_HOLD'].map(s => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                </td>
+                <td>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    {it.hasResume && (<a href={resumeUrl(it.id)} target="_blank" className="button">Download</a>)}
+                    <button onClick={() => remove(it.id)} style={{ background: '#e53e3e', ':hover': { background: '#c53030' } }}>Delete</button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }

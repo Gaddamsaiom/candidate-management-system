@@ -27,10 +27,10 @@ export default function SubmitForm({ initialRole = 'FRESHER', showRoleSwitch = f
   }
 
   return (
-    <div style={{ border: '1px solid #ddd', padding: 16, borderRadius: 8 }}>
+    <div className="card">
       <h2>Submit {role === 'FRESHER' ? 'Fresher' : 'Experienced'} Candidate</h2>
       {showRoleSwitch && (
-        <div style={{ marginBottom: 8 }}>
+        <div>
           <label>
             Role:&nbsp;
             <select value={role} onChange={(e) => setRole(e.target.value)}>
@@ -52,7 +52,7 @@ export default function SubmitForm({ initialRole = 'FRESHER', showRoleSwitch = f
         </div>
         <button type="submit">Submit</button>
       </form>
-      <div style={{ marginTop: 8, color: '#555' }}>{msg}</div>
+      <div className="msg">{msg}</div>
     </div>
   )
 }
