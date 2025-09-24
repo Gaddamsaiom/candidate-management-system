@@ -1,0 +1,43 @@
+# Java / Maven
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/
+.mvnd/
+
+# Spring Boot
+*.log
+
+# IntelliJ / Eclipse / VSCode
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node / Vite frontend
+frontend/node_modules/
+frontend/dist/
+*.local
+
+# Env
+.env
+.env.*.local
+
+# H2 database files (if persisted)
+*.h2.db
+*.mv.db
+
+# NPM debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Reports
+surefire-reports/
+jacoco.exec
