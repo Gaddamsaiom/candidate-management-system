@@ -51,6 +51,10 @@ jobs:
         working-directory: frontend
         run: npm ci || npm install
 
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
+
       - name: Start frontend (Vite preview)
         run: |
           nohup bash -c 'npm run --prefix frontend preview -- --host --port 5173' >/tmp/frontend.log 2>&1 & echo $! > /tmp/frontend.pid
