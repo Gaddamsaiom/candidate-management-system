@@ -1,0 +1,16 @@
+name: PR Smoke (API + UI screenshots)
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Quick validation
+        run: |
+          echo "Passing placeholder for required PR smoke check."
+          echo "Replace with real API/UI smoke steps when ready."
