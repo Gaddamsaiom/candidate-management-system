@@ -1,6 +1,11 @@
 # Candidate Management System
 
+![Backend CI](https://github.com/Gaddamsaiom/candidate-management-system/actions/workflows/backend-ci.yml/badge.svg?branch=main)
+![Frontend CI](https://github.com/Gaddamsaiom/candidate-management-system/actions/workflows/frontend-ci.yml/badge.svg?branch=main)
+
 A simple, easy-to-understand Spring Boot + React application to submit and manage candidate profiles (freshers and experienced), including resume upload, search/filter, status updates, and JSON import/export.
+
+Repository: https://github.com/Gaddamsaiom/candidate-management-system
 
 ## Tech Stack
 - Backend: Spring Boot 3.5.6 (Java 21), Spring Web, Spring Data JPA, Validation, Lombok
