@@ -1,8 +1,8 @@
-name: Auto-enable auto-merge on PRs
+name: Auto-enable auto-merge on PRs (opt-in by label)
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize]
+    types: [labeled, synchronize]
 
 permissions:
   contents: write
@@ -10,6 +10,8 @@ permissions:
 
 jobs:
   enable-auto-merge:
+    # Only run if the PR currently has a label named 'auto-merge'
+    if: contains(toJson(github.event.pull_request.labels), 'auto-merge')
     runs-on: ubuntu-latest
     steps:
       - name: Enable auto-merge (merge strategy)
