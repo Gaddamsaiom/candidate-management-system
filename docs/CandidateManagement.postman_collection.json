@@ -3,7 +3,7 @@
     "_postman_id": "cdb5a6f4-7f5a-4e58-9f32-0a7f9b1e9abc",
     "name": "Candidate Management API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "Postman collection for Candidate Management System APIs (local dev). Base URL http://localhost:8080"
+    "description": "Postman collection for Candidate Management System APIs (local dev). Base URL http://localhost:8082"
   },
   "item": [
     {
@@ -12,10 +12,10 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/swagger-ui.html",
+          "raw": "http://localhost:8082/swagger-ui.html",
           "protocol": "http",
           "host": ["localhost"],
-          "port": "8080",
+          "port": "8082",
           "path": ["swagger-ui.html"]
         }
       }
@@ -39,10 +39,10 @@
           ]
         },
         "url": {
-          "raw": "http://localhost:8080/api/freshers/submit",
+          "raw": "http://localhost:8082/api/freshers/submit",
           "protocol": "http",
           "host": ["localhost"],
-          "port": "8080",
+          "port": "8082",
           "path": ["api", "freshers", "submit"]
         }
       },
@@ -73,14 +73,14 @@
             { "key": "phone", "value": "8888888888", "type": "text" },
             { "key": "experience", "value": "5 years", "type": "text" },
             { "key": "skills", "value": "REACT,NODE", "type": "text" },
-            { "key": \"resume\", "type": "file", "src": "C:/path/to/resume.docx" }
+            { "key": "resume", "type": "file", "src": "C:/path/to/resume.docx" }
           ]
         },
         "url": {
-          "raw": "http://localhost:8080/api/experienced/submit",
+          "raw": "http://localhost:8082/api/experienced/submit",
           "protocol": "http",
           "host": ["localhost"],
-          "port": "8080",
+          "port": "8082",
           "path": ["api", "experienced", "submit"]
         }
       },
@@ -92,10 +92,10 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/api/manager",
+          "raw": "http://localhost:8082/api/manager",
           "protocol": "http",
           "host": ["localhost"],
-          "port": "8080",
+          "port": "8082",
           "path": ["api", "manager"]
         }
       },
@@ -107,10 +107,10 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/api/manager/1",
+          "raw": "http://localhost:8082/api/manager/1",
           "protocol": "http",
           "host": ["localhost"],
-          "port": "8080",
+          "port": "8082",
           "path": ["api", "manager", "1"]
         }
       },
@@ -122,10 +122,10 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/api/manager/search?role=FRESHER&status=SUBMITTED&q=java",
+          "raw": "http://localhost:8082/api/manager/search?role=FRESHER&status=SUBMITTED&q=java",
           "protocol": "http",
           "host": ["localhost"],
-          "port": "8080",
+          "port": "8082",
           "path": ["api", "manager", "search"],
           "query": [
             { "key": "role", "value": "FRESHER" },
@@ -148,10 +148,10 @@
           "raw": "{\n  \"status\": \"SELECTED\"\n}"
         },
         "url": {
-          "raw": "http://localhost:8080/api/manager/1/status",
+          "raw": "http://localhost:8082/api/manager/1/status",
           "protocol": "http",
           "host": ["localhost"],
-          "port": "8080",
+          "port": "8082",
           "path": ["api", "manager", "1", "status"]
         }
       },
@@ -163,10 +163,10 @@
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/api/manager/2",
+          "raw": "http://localhost:8082/api/manager/2",
           "protocol": "http",
           "host": ["localhost"],
-          "port": "8080",
+          "port": "8082",
           "path": ["api", "manager", "2"]
         }
       },
@@ -178,10 +178,10 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/api/manager/1/resume",
+          "raw": "http://localhost:8082/api/manager/1/resume",
           "protocol": "http",
           "host": ["localhost"],
-          "port": "8080",
+          "port": "8082",
           "path": ["api", "manager", "1", "resume"]
         }
       },
@@ -193,10 +193,10 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/api/manager/export",
+          "raw": "http://localhost:8082/api/manager/export",
           "protocol": "http",
           "host": ["localhost"],
-          "port": "8080",
+          "port": "8082",
           "path": ["api", "manager", "export"]
         }
       },
@@ -214,10 +214,10 @@
           "raw": "[\n  {\n    \"role\": \"FRESHER\",\n    \"name\": \"Alice\",\n    \"email\": \"alice@example.com\",\n    \"phone\": \"9999999999\",\n    \"qualification\": \"B.Tech\",\n    \"skills\": \"JAVA,SPRING\",\n    \"status\": \"SUBMITTED\"\n  }\n]"
         },
         "url": {
-          "raw": "http://localhost:8080/api/manager/import",
+          "raw": "http://localhost:8082/api/manager/import",
           "protocol": "http",
           "host": ["localhost"],
-          "port": "8080",
+          "port": "8082",
           "path": ["api", "manager", "import"]
         }
       },

@@ -20,8 +20,8 @@ Repository: https://github.com/Gaddamsaiom/candidate-management-system
   ```bash
   mvn spring-boot:run
   ```
-- API Base: `http://localhost:8080`
-- Swagger UI: `http://localhost:8080/swagger-ui.html`
+- API Base: `http://localhost:8082`
+- Swagger UI: `http://localhost:8082/swagger-ui.html`
 
 2) Frontend (Node 18)
 - Open `frontend/` and run:
@@ -33,7 +33,7 @@ Repository: https://github.com/Gaddamsaiom/candidate-management-system
 
 3) Submit a fresher (example curl)
 ```bash
-curl -X POST "http://localhost:8080/api/freshers/submit" \
+curl -X POST "http://localhost:8082/api/freshers/submit" \
   -F "name=Alice" -F "email=alice@example.com" -F "phone=9999999999" \
   -F "qualification=B.Tech" -F "skills=JAVA,SPRING" \
   -F "resume=@C:/path/to/resume.pdf"
@@ -54,11 +54,11 @@ Run API server:
 # In project root
 mvn spring-boot:run
 ```
-The API will start at http://localhost:8080
+The API will start at http://localhost:8082 (local profile) or http://localhost:8080 (default).
 
 Useful endpoints:
-- Swagger UI: http://localhost:8080/swagger-ui.html
-- H2 Console (dev): http://localhost:8080/h2-console
+- Swagger UI: http://localhost:8082/swagger-ui.html
+- H2 Console (dev): http://localhost:8082/h2-console
 
 ### Database Profiles (choose one)
 - Default (H2 in-memory): no flags needed; data resets each run.
@@ -163,15 +163,15 @@ candidate-management-system/
 
 ### Base URL
 
-- When running locally via `mvn spring-boot:run`, the base URL is:
-  - `http://localhost:8080`
-- Swagger UI: `http://localhost:8080/swagger-ui.html`
+- When running locally (recommended `local` profile), the base URL is:
+  - `http://localhost:8082`
+- Swagger UI: `http://localhost:8082/swagger-ui.html`
 
 ### 1) Submit Fresher
 
 - Method: `POST`
 - Path: `/api/freshers/submit`
-- URL: `http://localhost:8080/api/freshers/submit`
+- URL: `http://localhost:8082/api/freshers/submit`
 - Content-Type: `multipart/form-data`
 - Required fields:
   - `name` (string)
@@ -185,7 +185,7 @@ candidate-management-system/
 Example (curl):
 
 ```bash
-curl -X POST "http://localhost:8080/api/freshers/submit" \
+curl -X POST "http://localhost:8082/api/freshers/submit" \
   -H "Accept: application/json" \
   -F "name=Alice" \
   -F "email=alice@example.com" \
@@ -199,7 +199,7 @@ curl -X POST "http://localhost:8080/api/freshers/submit" \
 
 - Method: `POST`
 - Path: `/api/experienced/submit`
-- URL: `http://localhost:8080/api/experienced/submit`
+- URL: `http://localhost:8082/api/experienced/submit`
 - Content-Type: `multipart/form-data`
 - Required fields:
   - `name` (string)
@@ -214,7 +214,7 @@ curl -X POST "http://localhost:8080/api/freshers/submit" \
 Example (curl):
 
 ```bash
-curl -X POST "http://localhost:8080/api/experienced/submit" \
+curl -X POST "http://localhost:8082/api/experienced/submit" \
   -H "Accept: application/json" \
   -F "name=Bob" \
   -F "email=bob@example.com" \
@@ -228,10 +228,10 @@ curl -X POST "http://localhost:8080/api/experienced/submit" \
 
 - Method: `GET`
 - Path: `/api/manager`
-- URL: `http://localhost:8080/api/manager`
+- URL: `http://localhost:8082/api/manager`
 
 ```bash
-curl "http://localhost:8080/api/manager"
+curl "http://localhost:8082/api/manager"
 ```
 
 Sample response (200 OK):
@@ -259,37 +259,37 @@ Sample response (200 OK):
 
 - Method: `GET`
 - Path: `/api/manager/{id}`
-- URL: `http://localhost:8080/api/manager/{id}`
+- URL: `http://localhost:8082/api/manager/{id}`
 
 ```bash
-curl "http://localhost:8080/api/manager/1"
+curl "http://localhost:8082/api/manager/1"
 ```
 
 ### 5) Search / Filter Candidates
 
 - Method: `GET`
 - Path: `/api/manager/search`
-- URL: `http://localhost:8080/api/manager/search?role=...&status=...&q=...`
+- URL: `http://localhost:8082/api/manager/search?role=...&status=...&q=...`
 - Query params (all optional):
   - `role` (e.g., `FRESHER` or `EXPERIENCED`)
   - `status` (e.g., `SUBMITTED`, `SHORTLISTED`, `SELECTED`, `REJECTED`, etc.)
   - `q` (free-text search across name/email/skills)
 
 ```bash
-curl "http://localhost:8080/api/manager/search?role=FRESHER&status=SUBMITTED&q=java"
+curl "http://localhost:8082/api/manager/search?role=FRESHER&status=SUBMITTED&q=java"
 ```
 
 ### 6) Update Candidate Status
 
 - Method: `PATCH`
 - Path: `/api/manager/{id}/status`
-- URL: `http://localhost:8080/api/manager/{id}/status`
+- URL: `http://localhost:8082/api/manager/{id}/status`
 - Content-Type: `application/json`
 - Body required field:
   - `status` (one of: `SUBMITTED`, `UNDER_REVIEW`, `SHORTLISTED`, `INTERVIEW_SCHEDULED`, `INTERVIEWED`, `SELECTED`, `ON_HOLD`, `REJECTED`)
 
 ```bash
-curl -X PATCH "http://localhost:8080/api/manager/1/status" \
+curl -X PATCH "http://localhost:8082/api/manager/1/status" \
   -H "Content-Type: application/json" \
   -d '{ "status": "SELECTED" }'
 ```
@@ -314,39 +314,39 @@ Sample response (200 OK):
 
 - Method: `DELETE`
 - Path: `/api/manager/{id}`
-- URL: `http://localhost:8080/api/manager/{id}`
+- URL: `http://localhost:8082/api/manager/{id}`
 -
 - No request body.
-curl -X DELETE "http://localhost:8080/api/manager/2"
+curl -X DELETE "http://localhost:8082/api/manager/2"
 
 ### 8) Download Resume
 
 - Method: `GET`
 - Path: `/api/manager/{id}/resume`
-- URL: `http://localhost:8080/api/manager/{id}/resume`
+- URL: `http://localhost:8082/api/manager/{id}/resume`
 -
 - No request body.
-curl -L -o resume.pdf "http://localhost:8080/api/manager/1/resume"
+curl -L -o resume.pdf "http://localhost:8082/api/manager/1/resume"
 
 ### 9) Export All to JSON
 
 - Method: `GET`
 - Path: `/api/manager/export`
-- URL: `http://localhost:8080/api/manager/export`
+- URL: `http://localhost:8082/api/manager/export`
 -
 - No request body.
-curl -L -o candidates.json "http://localhost:8080/api/manager/export"
+curl -L -o candidates.json "http://localhost:8082/api/manager/export"
 
 ### 10) Import from JSON
 
 - Method: `POST`
 - Path: `/api/manager/import`
-- URL: `http://localhost:8080/api/manager/import`
+- URL: `http://localhost:8082/api/manager/import`
 - Content-Type: `application/json`
 - Body: an array of candidate objects in the same shape as exported by `/export`.
 
 ```bash
-curl -X POST "http://localhost:8080/api/manager/import" \
+curl -X POST "http://localhost:8082/api/manager/import" \
   -H "Content-Type: application/json" \
   --data-binary @candidates.json
 ```
@@ -412,7 +412,7 @@ Field notes:
 - **Port already in use (8080)**
   - Stop any other app using 8080, or run with a different port: `mvn spring-boot:run -Dspring-boot.run.arguments="--server.port=8081"`
 - **Swagger UI 404**
-  - Use `http://localhost:8080/swagger-ui.html` (note the `.html`). Ensure the app is started without errors.
+  - Use `http://localhost:8082/swagger-ui.html` for local profile (or `http://localhost:8080/swagger-ui.html` for default). Ensure the app is started without errors.
 - **CORS errors from frontend**
   - The backend enables CORS for `http://localhost:5173`. Make sure you use that dev server origin.
 - **JSON DB file path**

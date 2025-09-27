@@ -2,13 +2,12 @@
 
 This folder contains a Bruno API collection for the Candidate Management System.
 
-How to use
+**How to use**
 - Install Bruno: https://www.usebruno.com/
 - In Bruno, click "Open Collection" and select this `docs/bruno/` folder (or the inner `CandidateManagement/` folder).
-- Choose the `environments/local.bru` environment to use `http://localhost:8080` as `{{baseUrl}}`.
+- Choose the `environments/local.bru` environment to use `http://localhost:8082` as `{{baseUrl}}`.
 
 Structure
-```
 bruno/
 ├─ README.md
 ├─ CandidateManagement/
