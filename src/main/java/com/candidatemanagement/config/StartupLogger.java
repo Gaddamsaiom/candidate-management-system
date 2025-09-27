@@ -25,12 +25,10 @@ public class StartupLogger {
         }
         String host = "localhost";
         String backendUrl = port > 0 ? String.format("http://%s:%d", host, port) : "http://localhost";
-        String apiBase = backendUrl + "/api";
         String swaggerUrl = backendUrl + "/swagger-ui.html";
 
         log.info("=== Application URLs ===");
         log.info("Frontend URL: {}", frontendUrl);
-        log.info("Backend URL: {} (API base: {})", backendUrl, apiBase);
         log.info("Backend Swagger: {}", swaggerUrl);
         log.info("========================");
     }
