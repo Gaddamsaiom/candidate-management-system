@@ -1,0 +1,228 @@
+{
+  "info": {
+    "_postman_id": "cdb5a6f4-7f5a-4e58-9f32-0a7f9b1e9abc",
+    "name": "Candidate Management API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Postman collection for Candidate Management System APIs (local dev). Base URL http://localhost:8080"
+  },
+  "item": [
+    {
+      "name": "Health - Swagger UI",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/swagger-ui.html",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["swagger-ui.html"]
+        }
+      }
+    },
+    {
+      "name": "Fresher - Submit (multipart)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Accept", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "name", "value": "Alice", "type": "text" },
+            { "key": "email", "value": "alice@example.com", "type": "text" },
+            { "key": "phone", "value": "9999999999", "type": "text" },
+            { "key": "qualification", "value": "B.Tech", "type": "text" },
+            { "key": "skills", "value": "JAVA,SPRING", "type": "text" },
+            { "key": "resume", "type": "file", "src": "C:/path/to/resume.pdf" }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/freshers/submit",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "freshers", "submit"]
+        }
+      },
+      "response": [
+        {
+          "name": "201 Created",
+          "originalRequest": {},
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [],
+          "body": "{\n  \"success\": true,\n  \"message\": \"Fresher submitted\",\n  \"data\": {\n    \"id\": 1,\n    \"role\": \"FRESHER\",\n    \"name\": \"Alice\",\n    \"email\": \"alice@example.com\",\n    \"phone\": \"9999999999\",\n    \"status\": \"SUBMITTED\"\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Experienced - Submit (multipart)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Accept", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "name", "value": "Bob", "type": "text" },
+            { "key": "email", "value": "bob@example.com", "type": "text" },
+            { "key": "phone", "value": "8888888888", "type": "text" },
+            { "key": "experience", "value": "5 years", "type": "text" },
+            { "key": "skills", "value": "REACT,NODE", "type": "text" },
+            { "key": \"resume\", "type": "file", "src": "C:/path/to/resume.docx" }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/experienced/submit",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "experienced", "submit"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Manager - List all",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/manager",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "manager"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Manager - Get by id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/manager/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "manager", "1"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Manager - Search",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/manager/search?role=FRESHER&status=SUBMITTED&q=java",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "manager", "search"],
+          "query": [
+            { "key": "role", "value": "FRESHER" },
+            { "key": "status", "value": "SUBMITTED" },
+            { "key": "q", "value": "java" }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Manager - Update status",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"SELECTED\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/manager/1/status",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "manager", "1", "status"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Manager - Delete",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/manager/2",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "manager", "2"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Manager - Download resume",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/manager/1/resume",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "manager", "1", "resume"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Manager - Export JSON",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/manager/export",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "manager", "export"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Manager - Import JSON",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "[\n  {\n    \"role\": \"FRESHER\",\n    \"name\": \"Alice\",\n    \"email\": \"alice@example.com\",\n    \"phone\": \"9999999999\",\n    \"qualification\": \"B.Tech\",\n    \"skills\": \"JAVA,SPRING\",\n    \"status\": \"SUBMITTED\"\n  }\n]"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/manager/import",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "manager", "import"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "protocolProfileBehavior": {}
+}
