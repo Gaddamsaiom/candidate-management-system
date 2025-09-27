@@ -30,7 +30,6 @@ public class StartupLogger {
 
         log.info("=== Application URLs ===");
         log.info("Frontend URL: {}", frontendUrl);
-        log.info("Backend URL: {} (API base: {})", backendUrl, apiBase);
         log.info("Backend Swagger: {}", swaggerUrl);
         log.info("========================");
     }
