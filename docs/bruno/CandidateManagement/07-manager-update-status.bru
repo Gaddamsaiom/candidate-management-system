@@ -1,0 +1,14 @@
+meta {
+  name: Manager - Update status
+  type: http
+}
+request {
+  method: PATCH
+  url: {{baseUrl}}/api/manager/{{candidateId}}/status
+  headers {
+    Content-Type: application/json
+  }
+  body: json {
+    status: SELECTED
+  }
+}
