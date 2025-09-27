@@ -31,5 +31,6 @@ public class StartupLogger {
         log.info("=== Application URLs ===");
         log.info("Frontend URL: {}", frontendUrl);
         log.info("Backend Swagger: {}", swaggerUrl);
+        log.info("========================");
     }
 }
