@@ -17,28 +17,6 @@ export default function App() {
     <div className="container">
       <div className="header">
         <h1>Candidate Portal</h1>
-        <p style={{ marginTop: 6 }}>
-          Submit candidates, search and manage records, and track statuses. Ensure the backend is running.
-        </p>
-        <div
-          style={{
-            marginTop: '0.5rem',
-            padding: '0.5rem 0.75rem',
-            background: '#f4f8ff',
-            border: '1px solid #e0e7ff',
-            borderRadius: 6,
-            fontSize: 14,
-            lineHeight: 1.4,
-          }}
-        >
-          <div>
-            <strong>Frontend:</strong> {frontendUrl}
-          </div>
-          <div>
-            <strong>Backend:</strong> {backendUrl}{' '}
-            <span style={{ color: '#666' }}>(API base: {BASE_URL})</span>
-          </div>
-        </div>
       </div>
 
       <div className="tabs">
