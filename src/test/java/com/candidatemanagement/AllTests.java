@@ -1,11 +1,10 @@
-package com.candidatemanagement.config;
+package com.candidatemanagement;
 
-import com.candidatemanagement.CandidateManagementSystemApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(classes = CandidateManagementSystemApplication.class)
-class ContextLoadTest {
+class AllTests {
 
     @Test
     void contextLoads() {
