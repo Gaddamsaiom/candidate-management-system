@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8082/api'
+export const BASE_URL = 'http://localhost:8082/api'
 
 export async function submitFresher(data) {
   const form = new FormData()
