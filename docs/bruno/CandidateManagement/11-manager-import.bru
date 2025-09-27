@@ -1,0 +1,22 @@
+meta {
+  name: Manager - Import
+  type: http
+}
+request {
+  method: POST
+  url: {{baseUrl}}/api/manager/import
+  headers {
+    Content-Type: application/json
+  }
+  body: json [
+    {
+      role: FRESHER,
+      name: Alice,
+      email: alice@example.com,
+      phone: 9999999999,
+      qualification: B.Tech,
+      skills: "JAVA,SPRING",
+      status: SUBMITTED
+    }
+  ]
+}
