@@ -27,7 +27,13 @@ jobs:
           cache: maven
       - name: Maven package (skip tests)
         run: mvn -q -DskipTests package
-
+      - name: Upload backend artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-jar
+          path: target/*.jar
+          if-no-files-found: error
+          retention-days: 7
   preflight-frontend:
     name: Preflight Frontend Build
     runs-on: ubuntu-latest
@@ -49,14 +55,18 @@ jobs:
       - name: Build frontend
         working-directory: frontend
         run: npm run build
+      - name: Upload frontend dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend/dist/**
+          if-no-files-found: error
+          retention-days: 7
 
   preflight-smoke:
     name: Preflight Smoke (API/UI up)
     runs-on: ubuntu-latest
     needs: [preflight-backend, preflight-frontend]
-    concurrency:
-      group: auto-pr-preflight-smoke-${{ github.ref_name }}
-      cancel-in-progress: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -90,6 +100,15 @@ jobs:
       - name: Wait for frontend
         run: |
           for i in {1..60}; do if curl -sf http://localhost:5173 >/dev/null; then exit 0; fi; sleep 1; done; echo failed; tail -n 200 /tmp/frontend.log; exit 1
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: preflight-logs
+          path: |
+            /tmp/backend.log
+            /tmp/frontend.log
+          retention-days: 7
       - name: Cleanup
         if: always()
         run: |
