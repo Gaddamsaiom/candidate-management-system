@@ -5,6 +5,29 @@
 
 A simple, easy-to-understand Spring Boot + React application to submit and manage candidate profiles (freshers and experienced), including resume upload, search/filter, status updates, and JSON import/export.
 
+## 🚀 Quick Start
+
+1. **Prerequisites**
+   - Java 21
+   - Node.js 18+ (LTS recommended)
+   - Maven 3.9+
+
+2. **Install Dependencies**
+   ```bash
+   npm run install:all
+   ```
+
+3. **Start Development Servers**
+   ```bash
+   npm run dev
+   ```
+   This will start both the backend (Spring Boot) and frontend (React) development servers.
+
+4. **Access the Application**
+   - Frontend: http://localhost:5173
+   - Backend API: http://localhost:8082
+   - Swagger UI: http://localhost:8082/swagger-ui.html
+
 Repository: https://github.com/Gaddamsaiom/candidate-management-system
 
 ## Tech Stack
